@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const async = require('async');
 const User = require('../models/user');
 const Tweet = require('../models/tweet');
 
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
           return next(err);
         }
 
-        console.log(tweets);
+        // console.log(tweets);
         res.render('main/home', { tweets });
       });
   } else {
@@ -20,19 +21,24 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/create-new-user', (req, res, next) => {
-  const user = new User();
-  user.email = 'asd@gmail.com';
-  user.name = 'asd';
-  user.password = 'pass';
-
-  user.save(function(err) {
-    if (err) {
-      return next(err);
+router.get('/user/:id', (req, res) => {
+  async.waterfall([
+    callback => {
+      Tweet.find({ owner: req.params.id })
+        .populate('owner')
+        .exec((err, tweets) => {
+          callback(err, tweets);
+        });
+    },
+    (tweets, callback) => {
+      User.findOne({ _id: req.params.id })
+        .populate('following')
+        .populate('followers')
+        .exec((err, user) => {
+          res.render('main/user', { foundUser: user, tweets: tweets });
+        });
     }
-
-    res.json('Successfully created.');
-  });
+  ]);
 });
 
 module.exports = router;

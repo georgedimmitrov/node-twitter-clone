@@ -1,0 +1,58 @@
+<div class="col-md-6 col-md-offset-3">
+  <div class="starter-template">
+    <h2>{{ foundUser.name }}</h2>
+    <img src="{{ foundUser.photo }}" alt="" />
+    
+    <br />
+    <br />
+    <p>
+      <button class="btn btn-default" id="follow">Follow</button>
+    </p>
+  </div>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Tweets</a></li>
+    <li><a data-toggle="tab" href="#menu1">Following</a></li>
+    <li><a data-toggle="tab" href="#menu2">Followers</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      {{#each tweets}}
+      <div class="media">
+        <div class="media-left">
+          <a href="#"><img src="{{ owner.photo }}" alt="" class="media-object"></a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ owner.name }}</h4>
+          <p>{{ content }}</p>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      {{#each foundUser.following}}
+      <div class="media">
+        <div class="media-left">
+          <a href="#"><img src="{{ photo }}" alt="" class="media-object"></a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ name }}</h4>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      {{#each foundUser.followers}}
+      <div class="media">
+        <div class="media-left">
+          <a href="#"><img src="{{ photo }}" alt="" class="media-object"></a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ name }}</h4>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

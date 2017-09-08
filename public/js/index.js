@@ -14,7 +14,7 @@ $(function() {
   socket.on('incomingTweets', function(data) {
     var html = `<div class="media">
                   <div class="media-left">
-                    <a href="#"><img src=${data.user.photo} alt="" class="media-object"></a>
+                    <a href="/user/${data.user._id}"><img src=${data.user.photo} alt="" class="media-object"></a>
                   </div>
                   <div class="media-body">
                     <h4 class="media-heading">${data.user.name}</h4>

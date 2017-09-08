@@ -5,9 +5,9 @@ const User = require('../models/user');
 
 module.exports = io => {
   io.on('connection', socket => {
-    console.log('Connected');
+    // console.log('Connected');
     const user = socket.request.user;
-    console.log(user.name);
+    // console.log(user.name);
 
     socket.on('tweet', data => {
       // console.log(data);
