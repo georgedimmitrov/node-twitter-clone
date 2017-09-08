@@ -1,11 +1,23 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Tweet = require('../models/tweet');
 
 router.get('/', (req, res) => {
   if (req.user) {
-    return res.render('main/home');
+    Tweet.find({})
+      .sort('-created')
+      .populate('owner')
+      .exec((err, tweets) => {
+        if (err) {
+          return next(err);
+        }
+
+        console.log(tweets);
+        res.render('main/home', { tweets });
+      });
+  } else {
+    res.render('main/landing');
   }
-  res.render('main/landing');
 });
 
 router.get('/create-new-user', (req, res, next) => {

@@ -10,15 +10,15 @@ module.exports = io => {
     console.log(user.name);
 
     socket.on('tweet', data => {
-      console.log(data);
+      // console.log(data);
       async.parallel([
-        function(callback) {
+        (callback) => {
           io.emit('incomingTweets', { data, user });
         },
 
-        function(callback) {
+        (callback) => {
           async.waterfall([
-            function(callback) {
+            (callback) => {
               const tweet = new Tweet();
               tweet.content = data.content;
               tweet.owner = user._id;
@@ -26,14 +26,14 @@ module.exports = io => {
                 callback(err, tweet);
               });
             },
-            function(tweet, callback) {
+            (tweet, callback) => {
               User.update(
                 {
                   _id: user._id
                 },
                 {
                   $push: { tweets: { tweet: tweet._id } },
-                }, function(err, count) {
+                }, (err, count) => {
                   callback(err, count);
                 }
               );
